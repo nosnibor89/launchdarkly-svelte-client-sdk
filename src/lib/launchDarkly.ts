@@ -27,9 +27,11 @@ function createLD() {
 		ldClient.waitUntilReady().then(() => {
 			loading.set(false);
 			flags.set(ldClient!.allFlags());
+			// console.log('LaunchDarkly client ready', ldClient);
 		});
 
 		ldClient.on('change', (changes) => {
+			// console.log('Flags change', ldClient);
 			console.log('Flags updated', changes);
 			flags.set(ldClient!.allFlags());
 		});
@@ -39,8 +41,15 @@ function createLD() {
 		};
 	}
 
+	async function identify(context: LDContext) {
+		if (ldClient) {
+			// console.log('Identifying user', context, ldClient);
+			return ldClient.identify(context);
+		}
+	}
+
 	return {
-		client: ldClient,
+		identify,
 		flags: readonly(flags),
 		initialize,
 		intializing: readonly(loading),
