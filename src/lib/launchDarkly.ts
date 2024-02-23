@@ -1,5 +1,5 @@
 import * as LDClient from 'launchdarkly-js-client-sdk';
-import { writable, derived, type Writable, get, readonly } from 'svelte/store';
+import { writable, derived, type Writable, get, readonly, type Readable } from 'svelte/store';
 import { DEV } from 'esm-env';
 
 //TODO: Definetively improve this
@@ -9,9 +9,10 @@ function debugLog(callback: () => void): void {
 	}
 }
 
+type JSONValue = string | number | boolean | { [x: string]: JSONValue } | Array<JSONValue>;
 export type LDClentID = string;
 export type LDContext = LDClient.LDContext;
-export type LDFlagsValue = string | boolean;
+export type LDFlagsValue = boolean | string | number | JSONValue;
 type LDFlags = Record<string, LDFlagsValue>;
 
 function createLD() {
@@ -53,10 +54,10 @@ function createLD() {
 		flags: readonly(flags),
 		initialize,
 		intializing: readonly(loading),
-		watch: (flagKey: string) => {
+		watch: (flagKey: string): Readable<LDFlagsValue> => {
 			return derived<Writable<LDFlags>, LDFlagsValue>(flags, ($flags) => {
 				console.log('watching', flagKey, $flags[flagKey], $flags);
-				return !!$flags[flagKey];
+				return $flags[flagKey];
 			});
 		},
 		isOn: (flagKey: string): boolean => {
