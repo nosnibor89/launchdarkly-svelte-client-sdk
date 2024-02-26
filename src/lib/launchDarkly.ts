@@ -2,7 +2,7 @@ import * as LDClient from 'launchdarkly-js-client-sdk';
 import { writable, derived, type Writable, get, readonly, type Readable } from 'svelte/store';
 import { DEV } from 'esm-env';
 
-//TODO: Definetively improve this
+//TODO: Add logging strategy
 function debugLog(callback: () => void): void {
 	if (DEV) {
 		callback();
@@ -21,19 +21,15 @@ function createLD() {
 	const flags = writable<LDFlags>({});
 
 	function initialize(clientId: LDClentID, context: LDContext) {
-		debugLog(() => {
-			console.log('Initializing LaunchDarkly client');
-		});
+		debugLog(() => console.log('Initializing LaunchDarkly client'));
 		ldClient = LDClient.initialize(clientId, context);
 		ldClient.waitUntilReady().then(() => {
 			loading.set(false);
 			flags.set(ldClient!.allFlags());
-			// console.log('LaunchDarkly client ready', ldClient);
 		});
 
 		ldClient.on('change', (changes) => {
-			// console.log('Flags change', ldClient);
-			console.log('Flags updated', changes);
+			debugLog(() => console.log('Flags updated', changes));
 			flags.set(ldClient!.allFlags());
 		});
 
@@ -44,7 +40,6 @@ function createLD() {
 
 	async function identify(context: LDContext) {
 		if (ldClient) {
-			// console.log('Identifying user', context, ldClient);
 			return ldClient.identify(context);
 		}
 	}
@@ -56,7 +51,7 @@ function createLD() {
 		intializing: readonly(loading),
 		watch: (flagKey: string): Readable<LDFlagsValue> => {
 			return derived<Writable<LDFlags>, LDFlagsValue>(flags, ($flags) => {
-				console.log('watching', flagKey, $flags[flagKey], $flags);
+				debugLog(() => console.log('watching', flagKey, $flags[flagKey], $flags));
 				return $flags[flagKey];
 			});
 		},
