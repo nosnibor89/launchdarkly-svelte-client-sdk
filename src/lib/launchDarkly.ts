@@ -40,7 +40,6 @@ function createLD() {
 	 * Initializes the LaunchDarkly client.
 	 * @param {LDClentID} clientId - The client ID.
 	 * @param {LDContext} context - The context.
-	 * @returns {Object} An object with the initialization status store.
 	 * @returns {Writable<boolean>} An object with the initialization status store.
 	 */
 	function initialize(clientId: LDClentID, context: LDContext) {
