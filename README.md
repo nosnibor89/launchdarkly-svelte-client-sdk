@@ -2,6 +2,16 @@
 
 This is a Svelte library for Launch Darkly. It is a wrapper around the official Launch Darkly JavaScript SDK but with a Svelte-friendly API.
 
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Advanced Usage](#advanced-usage)
+  - [Changing user context](#changing-user-context)
+  - [Getting feature flag values](#getting-feature-flag-values)
+    - [Getting immediate flag value](#getting-immediate-flag-value)
+    - [Watching flag value changes](#watching-flag-value-changes)
+    - [Getting all flag values](#getting-all-flag-values)
+
 ## Getting started
 
 First, install the package:
@@ -57,7 +67,7 @@ You can change the user context by using the `identify` function from the `LD` o
 <script>
 	import { LD } from 'launchdarkly-svelte-client-sdk';
 
-    funtion handleLogin() {
+    function handleLogin() {
         LD.identify({ key: 'new-user-key' });
     }
 </script>
@@ -67,7 +77,7 @@ You can change the user context by using the `identify` function from the `LD` o
 
 ### Getting feature flag values
 
-#### Getting inmediate flag value
+#### Getting immediate flag value
 
 If you need to get the value of a flag at time of evaluation you can use the `isOn` function:
 

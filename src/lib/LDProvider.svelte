@@ -4,14 +4,14 @@
 
 	export let clientID: LDClentID;
 	export let context: LDContext;
-	const { initialize, intializing } = LD;
+	const { initialize, initializing } = LD;
 
 	onMount(() => {
 		initialize(clientID, context);
 	});
 </script>
 
-{#if $$slots.initializing && $intializing}
+{#if $$slots.initializing && $initializing}
 	<slot name="initializing">Loading flags (default loading slot value)...</slot>
 {:else}
 	<slot />
