@@ -27,6 +27,8 @@ export type LDFlagsValue = JSONValue;
 /** Flags for LaunchDarkly */
 export type LDFlags = Record<string, LDFlagsValue>;
 
+export type LDInstance = ReturnType<typeof createLD>;
+
 /**
  * Creates a LaunchDarkly instance.
  * @returns {Object} The LaunchDarkly instance object.
