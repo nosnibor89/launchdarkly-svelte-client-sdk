@@ -28,6 +28,19 @@ export type LDFlagsValue = JSONValue;
 export type LDFlags = Record<string, LDFlagsValue>;
 
 /**
+ * Checks if the LaunchDarkly client is initialized.
+ * @param {LDClient.LDClient | undefined} client - The LaunchDarkly client.
+ * @throws {Error} If the client is not initialized.
+ */
+function isClientInitialized(
+	client: LDClient.LDClient | undefined
+): asserts client is LDClient.LDClient {
+	if (!client) {
+		throw new Error('LaunchDarkly client not initialized');
+	}
+}
+
+/**
  * Creates a LaunchDarkly instance.
  * @returns {Object} The LaunchDarkly instance object.
  */
@@ -68,7 +81,8 @@ function createLD() {
 	 * @returns {Promise} A promise that resolves when the user is identified.
 	 */
 	async function identify(context: LDContext) {
-		return ldClient?.identify(context);
+		isClientInitialized(ldClient);
+		return ldClient.identify(context);
 	}
 
 	/**
@@ -77,6 +91,7 @@ function createLD() {
 	 * @returns {Readable<LDFlagsValue>} A readable store of the flag value.
 	 */
 	const watch = (flagKey: string): Readable<LDFlagsValue> => {
+		isClientInitialized(ldClient);
 		return derived<Writable<LDFlags>, LDFlagsValue>(flagsWritable, ($flags) => {
 			debugLog(() => console.log('watching', flagKey, $flags[flagKey], $flags));
 			return $flags[flagKey];
@@ -89,6 +104,7 @@ function createLD() {
 	 * @returns {boolean} True if the flag is on, false otherwise.
 	 */
 	const isOn = (flagKey: string): boolean => {
+		isClientInitialized(ldClient);
 		const currentFlags = get(flagsWritable);
 		return !!currentFlags[flagKey];
 	};
