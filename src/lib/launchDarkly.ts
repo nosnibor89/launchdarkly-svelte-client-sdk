@@ -35,7 +35,6 @@ export type LDFlags = Record<string, LDFlagsValue>;
 function isClientInitialized(
 	client: LDClient.LDClient | undefined
 ): asserts client is LDClient.LDClient {
-	console.log('isClientInitialized', client);
 	if (!client) {
 		throw new Error('LaunchDarkly client not initialized');
 	}
