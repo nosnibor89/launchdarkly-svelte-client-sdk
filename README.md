@@ -1,5 +1,15 @@
 # Launch Darkly Svelte SDK
 
+> **⚠️ DEPRECATED: This project is no longer maintained.**
+>
+> Please migrate to the official LaunchDarkly Svelte SDK:
+>
+> - **New package**: [`@nosnibor89/svelte-client-sdk`](https://www.npmjs.com/package/@nosnibor89/svelte-client-sdk)
+> - **Active development**: [github.com/nosnibor89/ld-sdk-criss-js-core/tree/main/packages/sdk/svelte](https://github.com/nosnibor89/ld-sdk-criss-js-core/tree/main/packages/sdk/svelte)
+> - **Synchronized with**: [LaunchDarkly core project](https://github.com/launchdarkly/js-core/tree/main/packages/sdk/svelte)
+>
+> The new package is actively maintained and includes the latest features and security updates.
+
 This is a Svelte library for Launch Darkly. It is a wrapper around the official Launch Darkly JavaScript SDK but with a Svelte-friendly API.
 
 ## Table of Contents
